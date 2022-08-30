@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import TodoListSidebar from "./components/sidebar/TodoListSidebar";
+import TaskList from "./components/taskList/TaskList";
+import NewTaskForm from "./components/taskForm/NewTaskForm";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+    return (
+        <div className="App">
+            <TodoListSidebar lists={props.state.lists} showCompleted={props.state.showCompletedTasks}/>
+            <TaskList  lists={props.state.lists}/>
+            <NewTaskForm lists={props.state.lists}/>
+        </div>
+    );
 }
 
 export default App;
