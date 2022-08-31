@@ -4,11 +4,6 @@ import style from  './TaskElem.module.css'
 const TaskElem = (props) => {
     let task = props.task
 
-    function deleteTask() {
-        const t = props.list.tasks.findIndex(t => t.id === task.id);
-        props.list.tasks.splice(t, 1);
-    }
-
     return (
         <div >
             <div id={task.id} className= {style.taskDetails}>
@@ -18,7 +13,7 @@ const TaskElem = (props) => {
                 <label className={style.taskDetailsName}>{task.name}</label>
                 <p>{task.description}</p>
                 <span>
-                    <button onClick={deleteTask} >Delete</button>
+                    <button >Delete</button>
                 </span>
             </div>
         </div>

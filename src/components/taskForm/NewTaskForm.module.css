@@ -1,0 +1,20 @@
+.NewTaskForm {
+    display: flex;
+    flex-direction: column;
+    grid-area: ntf;
+    border: 1px solid #bcd5ef;
+    box-shadow: 2px 2px 2px #E6EDF7;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: 120px;
+}
+
+.input {
+    margin: 5px;
+    max-width: 300px;
+}
+.button {
+    max-width: 300px;
+    margin: 5px;
+}

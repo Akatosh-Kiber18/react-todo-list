@@ -15,10 +15,6 @@
   grid-area: tl;
 }
 
-.NewTaskForm {
-  grid-area: ntf;
-  background-color: red;
-}
 
 .TodoListSidebar {
   background-color: white;
