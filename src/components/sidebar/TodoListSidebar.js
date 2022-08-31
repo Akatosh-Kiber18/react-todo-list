@@ -1,8 +1,8 @@
 import React from 'react';
-import ListsElem from "./listElements/ListsElem";
+import ListElem from "./ListElem/ListElem";
 
 const TodoListSidebar = (props) => {
-    let listsElements = props.lists.map(l => <ListsElem key={"list"+l.id} list={l} />)
+    let listsElements = props.lists.map(l => <ListElem key={"list"+l.id} list={l} count={props.tasks.filter(t => t.listId === l.id).length} />)
 
     return (
         <div className="TodoListSidebar">

@@ -1,20 +1,20 @@
 import React from 'react';
 import TaskElem from "./taskElements/TaskElem";
-import {useParams} from "react-router-dom";
 import NewTaskForm from "../taskForm/NewTaskForm";
+import {useParams} from "react-router-dom";
 
-const TaskList = (props) => {
-    const params = useParams();
-    const listId = +params.id;
-
-    let tasks = props.tasks
-        .filter(t => t.listId === listId)
-        .map(t => <TaskElem key={t.id} task={t} />)
-
+const TaskList = ({tasks, addTask, deleteTask, changeTaskStatus}) => {
+    const listId = +useParams().id
     return (
         <div className="TaskList">
-              {tasks}
-            <NewTaskForm listId={listId} tasks={props.tasks} />
+            {
+                tasks
+                    .filter(t => t.listId === listId)
+                    .map(t =>
+                        <TaskElem key={t.id} task={t} deleteTask={deleteTask} changeTaskStatus={changeTaskStatus}/>
+                    )
+            }
+            <NewTaskForm listId={listId} addTask={addTask}/>
         </div>
     );
 };
