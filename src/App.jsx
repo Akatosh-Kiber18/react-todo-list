@@ -1,8 +1,9 @@
 import './App.css';
-import TodoListSidebar from "./components/sidebar/TodoListSidebar";
-import TaskList from "./components/taskList/TaskList";
+import TodoListSidebar from "./components/Sidebar/TodoListSidebar";
+import TaskList from "./components/TaskList/TaskList";
 import {Route, Routes} from "react-router-dom";
 import {useState} from "react";
+import WelcomePage from "./components/WelcomePage/WelcomePage";
 
 function App() {
     let initState = {
@@ -26,7 +27,7 @@ function App() {
                 "done": false,
                 "id": 62,
                 "name": "new tasdaask3",
-                "dueDate": "2022-08-21",
+                "dueDate": "2023-08-21",
                 "description": "description of new task2",
                 "listId": 20
             },
@@ -34,7 +35,7 @@ function App() {
                 "done": false,
                 "id": 69,
                 "name": "new",
-                "dueDate": "2022-08-21",
+                "dueDate": "2023-08-21",
                 "description": "description of new task2",
                 "listId": 20
             },
@@ -50,7 +51,7 @@ function App() {
                 "done": false,
                 "id": 60,
                 "name": "new task1",
-                "dueDate": "2022-08-21",
+                "dueDate": "2023-08-21",
                 "description": "description of new task2",
                 "listId": 20
             },
@@ -66,7 +67,7 @@ function App() {
                 "done": false,
                 "id": 64,
                 "name": "new task2",
-                "dueDate": "2022-08-21",
+                "dueDate": "2023-08-21",
                 "description": "description of new task2",
                 "listId": 21
             },
@@ -82,7 +83,7 @@ function App() {
                 "done": false,
                 "id": 68,
                 "name": "task3",
-                "dueDate": "2022-08-21",
+                "dueDate": "2023-08-21",
                 "description": "description of new task3",
                 "listId": 22
             },
@@ -98,13 +99,17 @@ function App() {
                 "done": false,
                 "id": 66,
                 "name": "new task1",
-                "dueDate": "2022-08-21",
+                "dueDate": "2024-08-21",
                 "description": "description of new task1",
                 "listId": 22
             }
         ]
     }
     const [appState, setAppState] = useState(initState);
+
+    function switchShowCompletedTasks() {
+        setAppState({...appState, showCompletedTasks: !appState.showCompletedTasks})
+    }
 
     function addTask(task) {
         task.id = Math.floor(Math.random() * 1000000);
@@ -139,13 +144,16 @@ function App() {
 
     return (
         <div className="App">
-            <TodoListSidebar lists={appState.lists} tasks={appState.tasks}/>
+            <TodoListSidebar lists={appState.lists} tasks={appState.tasks} switchShowCompletedTasks={switchShowCompletedTasks}/>
             <Routes>
+                <Route path={'/'} element={<WelcomePage />}/>
                 <Route path='/lists/:id'
                        element={<TaskList tasks={appState.tasks}
                                           addTask={addTask}
                                           deleteTask={deleteTask}
-                                          changeTaskStatus={changeTaskStatus}/>}
+                                          changeTaskStatus={changeTaskStatus}
+                                          showCompletedTasks={appState.showCompletedTasks}
+                       />}
                 />
             </Routes>
         </div>

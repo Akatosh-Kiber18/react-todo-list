@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './ListElem.css'
+import style from './ListElem.module.css'
 import {Link} from "react-router-dom";
 
 const ListElem = (props) => {
