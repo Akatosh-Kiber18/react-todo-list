@@ -14,7 +14,6 @@ const NewTaskForm = ({listId, addTask}) => {
 
         addTask({
             done: false,
-            id: undefined,
             name: taskName,
             dueDate: taskDueDate || null,
             description: taskDescription || null,

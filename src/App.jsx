@@ -1,156 +1,85 @@
 import './App.css';
 import TodoListSidebar from "./components/Sidebar/TodoListSidebar";
 import TaskList from "./components/TaskList/TaskList";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useSearchParams} from "react-router-dom";
 import {useState} from "react";
 import WelcomePage from "./components/WelcomePage/WelcomePage";
+import {getLists} from "./rest/list.rest";
+import {deleteTask, getTask, getTasks, patchTask, postTask} from "./rest/task.rest";
 
 function App() {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     let initState = {
-        showCompletedTasks: false,
-        lists: [
-            {
-                "id": 20,
-                "name": "Todo",
-            },
-            {
-                "id": 21,
-                "name": "Sometime",
-            },
-            {
-                "id": 22,
-                "name": "Must have",
-            }
-        ],
-        tasks: [
-            {
-                "done": false,
-                "id": 62,
-                "name": "new tasdaask3",
-                "dueDate": "2023-08-21",
-                "description": "description of new task2",
-                "listId": 20
-            },
-            {
-                "done": false,
-                "id": 69,
-                "name": "new",
-                "dueDate": "2023-08-21",
-                "description": "description of new task2",
-                "listId": 20
-            },
-            {
-                "done": false,
-                "id": 61,
-                "name": "new taasdsk2",
-                "dueDate": "2022-08-21",
-                "description": "description of new task2",
-                "listId": 20
-            },
-            {
-                "done": false,
-                "id": 60,
-                "name": "new task1",
-                "dueDate": "2023-08-21",
-                "description": "description of new task2",
-                "listId": 20
-            },
-            {
-                "done": false,
-                "id": 65,
-                "name": "new tasdasdask3",
-                "dueDate": "2022-08-21",
-                "description": "description of new task3",
-                "listId": 21
-            },
-            {
-                "done": false,
-                "id": 64,
-                "name": "new task2",
-                "dueDate": "2023-08-21",
-                "description": "description of new task2",
-                "listId": 21
-            },
-            {
-                "done": false,
-                "id": 63,
-                "name": "task1",
-                "dueDate": "2022-08-21",
-                "description": "description of new task1",
-                "listId": 21
-            },
-            {
-                "done": false,
-                "id": 68,
-                "name": "task3",
-                "dueDate": "2023-08-21",
-                "description": "description of new task3",
-                "listId": 22
-            },
-            {
-                "done": false,
-                "id": 67,
-                "name": "task2",
-                "dueDate": "2022-08-21",
-                "description": "description of new task2",
-                "listId": 22
-            },
-            {
-                "done": false,
-                "id": 66,
-                "name": "new task1",
-                "dueDate": "2024-08-21",
-                "description": "description of new task1",
-                "listId": 22
-            }
-        ]
+        showCompletedTasks: searchParams.get('completed') === 'true',
+        lists: [],
+        tasks: []
     }
     const [appState, setAppState] = useState(initState);
 
+    if (appState.lists.length === 0) {
+        getLists()
+            .then(res => setAppState({...appState, lists: res.data}))
+    }
+    if (appState.tasks.length === 0) {
+        getTasks()
+            .then(res => setAppState({...appState, tasks: res.data}))
+    }
+
     function switchShowCompletedTasks() {
-        setAppState({...appState, showCompletedTasks: !appState.showCompletedTasks})
+        setSearchParams({"completed": String(!appState.showCompletedTasks)});
+        setAppState({...appState, showCompletedTasks: !appState.showCompletedTasks});
     }
 
     function addTask(task) {
-        task.id = Math.floor(Math.random() * 1000000);
-
-        setAppState(
-            {...appState, tasks: [...appState.tasks, task]})
-    }
-
-    function deleteTask(taskId) {
-        setAppState(
-            {
-                ...appState,
-                tasks: appState.tasks
-                    .filter(t => t.id !== taskId)
+        postTask(task)
+            .then(res => {
+                getTask(res.data.id)
+                    .then(newTask => setAppState({...appState, tasks: [...appState.tasks, newTask.data]}))
             })
     }
 
-    function changeTaskStatus(taskId) {
-        setAppState(
-            {
+    function onDeleteTask(taskId) {
+        deleteTask(taskId)
+            .then(_ => setAppState(
+                {
+                    ...appState,
+                    tasks: appState.tasks
+                        .filter(t => t.id !== taskId)
+                }))
+    }
+
+    function changeTaskStatus(taskId, done) {
+        const task = appState.tasks.find(t => t.id === taskId)
+        const oldTaskDone = task.done;
+        task.done = done
+
+        patchTask(task)
+            .then(_ => getTask(taskId))
+            .then(res => setAppState({
                 ...appState,
-                tasks: appState.tasks.map(t => t.id === taskId ? {
-                    done: !t.done,
-                    id: t.id,
-                    name: t.name,
-                    dueDate: t.dueDate,
-                    description: t.description,
-                    listId: t.listId
-                } : t)
-            })
+                tasks: appState.tasks.map(t => {
+                        if (t.id === taskId) {
+                            return res.data;
+                        }
+                        return t;
+                    }
+                )
+            }))
+            .catch(_ => task.done = oldTaskDone)
     }
 
     return (
         <div className="App">
-            <TodoListSidebar lists={appState.lists} tasks={appState.tasks} switchShowCompletedTasks={switchShowCompletedTasks}/>
+            <TodoListSidebar lists={appState.lists} tasks={appState.tasks}
+                             showCompletedTasks={appState.showCompletedTasks}
+                             switchShowCompletedTasks={switchShowCompletedTasks}/>
             <Routes>
-                <Route path={'/'} element={<WelcomePage />}/>
+                <Route path={'/'} element={<WelcomePage/>}/>
                 <Route path='/lists/:id'
                        element={<TaskList tasks={appState.tasks}
                                           addTask={addTask}
-                                          deleteTask={deleteTask}
+                                          onDeleteTask={onDeleteTask}
                                           changeTaskStatus={changeTaskStatus}
                                           showCompletedTasks={appState.showCompletedTasks}
                        />}

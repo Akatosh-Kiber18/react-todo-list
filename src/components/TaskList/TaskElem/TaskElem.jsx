@@ -1,19 +1,12 @@
 import React, {useState} from 'react';
 import style from './TaskElem.module.css'
 
-const TaskElem = ({task, deleteTask, changeTaskStatus, showCompletedTasks}) => {
-    const [isDone, setIsDone] = useState(task.done);
-
+const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompletedTasks}) => {
     const today = new Date();
     today.setHours(0,0,0);
 
-    function onCheckboxClick(id) {
-        changeTaskStatus(id);
-        handleClick();
-    }
-
-    const handleClick = () => {
-        setIsDone(done => !done)
+    function onCheckboxClick() {
+        changeTaskStatus(task.id, !task.done);
     }
 
     function isOverdue (){
@@ -24,20 +17,21 @@ const TaskElem = ({task, deleteTask, changeTaskStatus, showCompletedTasks}) => {
         <div >
             <div id={task.id} className={style.taskDetails}
                  style={{
-                     borderTopColor: isDone ? "green" : isOverdue() ? "red" : "gray",
-                     display: isDone && !showCompletedTasks ? "none" : ""
+                     borderTopColor: task.done ? "green" : isOverdue() ? "red" : "gray",
+                     display: task.done && !showCompletedTasks ? "none" : ""
                  }}>
                 <h4 className={style.taskDetailsDueDate}
                     style={{
-                        color: isDone ? "green" : isOverdue() ? "red" : "gray"
+                        color: task.done ? "green" : isOverdue() ? "red" : "gray"
                     }}>
                     {task.dueDate || '[no due date]'}
                 </h4>
-                <input type="checkbox" className={style.checkbox} checked={task.done} onClick={() => onCheckboxClick(task.id)}/>
+                <input id={'done-' + task.id} type="checkbox" className={style.checkbox} checked={task.done} onChange={onCheckboxClick}/>
                 <label className={style.taskDetailsName}
+                       for={'done-' + task.id}
                        style={{
-                           textDecoration: isDone ? "line-through" : "",
-                           color: isDone ? "grey" : ""
+                           textDecoration: task.done ? "line-through" : "",
+                           color: task.done ? "grey" : ""
                        }}>{task.name}</label>
                 <p>{task.description || '[no description]'}</p>
                 <span
@@ -46,7 +40,7 @@ const TaskElem = ({task, deleteTask, changeTaskStatus, showCompletedTasks}) => {
                         flexDirection: "row-reverse",
                         padding: "5px"
                 }}>
-                    <button onClick={() => deleteTask(task.id)}>Delete</button>
+                    <button onClick={() => onDeleteTask(task.id)}>Delete</button>
                 </span>
             </div>
         </div>

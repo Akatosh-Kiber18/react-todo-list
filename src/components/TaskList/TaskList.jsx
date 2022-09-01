@@ -3,17 +3,17 @@ import TaskElem from "./TaskElem/TaskElem";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import {useParams} from "react-router-dom";
 
-const TaskList = ({tasks, addTask, deleteTask, changeTaskStatus, showCompletedTasks}) => {
+const TaskList = ({tasks, addTask, onDeleteTask, changeTaskStatus, showCompletedTasks}) => {
     const listId = +useParams().id
     return (
         <div className="TaskList">
             {
                 tasks
-                    .filter(t => t.listId === listId)
+                    .filter(t => t.list.id === listId)
                     .map(t =>
                         <TaskElem key={t.id}
                                   task={t}
-                                  deleteTask={deleteTask}
+                                  onDeleteTask={onDeleteTask}
                                   changeTaskStatus={changeTaskStatus}
                                   showCompletedTasks={showCompletedTasks}
                         />
