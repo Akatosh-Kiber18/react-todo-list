@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import style from './TaskElem.module.css'
 
-const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompletedTasks}) => {
+const TaskElem = ({task, onDeleteTask, changeTaskStatus}) => {
     const today = new Date();
     today.setHours(0,0,0);
 
-    function onCheckboxClick() {
-        changeTaskStatus(task.id, !task.done);
-    }
 
     function isOverdue (){
       return today > new Date(task.dueDate)
@@ -18,7 +15,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompletedTasks}) =>
             <div id={task.id} className={style.taskDetails}
                  style={{
                      borderTopColor: task.done ? "green" : isOverdue() ? "red" : "gray",
-                     display: task.done && !showCompletedTasks ? "none" : ""
+                     // display: task.done ? "none" : ""
                  }}>
                 <h4 className={style.taskDetailsDueDate}
                     style={{
@@ -26,7 +23,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompletedTasks}) =>
                     }}>
                     {task.dueDate || '[no due date]'}
                 </h4>
-                <input id={'done-' + task.id} type="checkbox" className={style.checkbox} checked={task.done} onChange={onCheckboxClick}/>
+                <input id={'done-' + task.id} type="checkbox" className={style.checkbox} checked={task.done} onChange={() => changeTaskStatus(task.id)}/>
                 <label className={style.taskDetailsName}
                        for={'done-' + task.id}
                        style={{

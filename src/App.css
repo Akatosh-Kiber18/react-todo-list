@@ -9,13 +9,13 @@
   grid-auto-columns: 3fr 10fr;
   grid-gap: 10px;
 }
+
 .TaskList {
   background-color: white;
   box-shadow: 2px 2px 2px #E6EDF7;
   grid-area: tl;
   padding: 25px;
 }
-
 
 .TodoListSidebar {
   background-color: white;
@@ -29,10 +29,20 @@
   color: black;
  }
 
+.TodoListSidebar h2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #7c0000;
+  margin: 0;
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
 /*Switch Block Sidebar*/
 .switcherContainer{
   display: flex;
   align-items: center;
+  padding-top: 10px;
 }
 
 .switch {

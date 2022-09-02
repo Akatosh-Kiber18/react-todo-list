@@ -2,18 +2,19 @@ import React from 'react';
 import ListElem from "./ListElem/ListElem";
 import {Link} from "react-router-dom";
 
-const TodoListSidebar = ({lists, tasks, showCompletedTasks, switchShowCompletedTasks}) => {
+const TodoListSidebar = ({lists}) => {
     let listsElements = lists.map(l =>
-        <ListElem key={"list" + l.id} list={l} showCompletedTasks={showCompletedTasks} count={tasks.filter(t => t.list.id === l.id).length}/>
+        <ListElem key={"list" + l.id} list={l}/>
     )
     return (
         <div className="TodoListSidebar">
             <h1>Lists: </h1>
             {listsElements}
-            <Link to={'/'}><h3>Home</h3></Link>
+            <Link to={'/today'}><h2>Tasks on Today</h2></Link>
+            <Link to={'/'}><h2> Home </h2></Link>
             <span className={"switcherContainer"}>
                 <label className="switch">
-                    <input type="checkbox" checked={showCompletedTasks} onChange={switchShowCompletedTasks}/>
+                    <input type="checkbox" />
                     <span className="slider round"></span>
                 </label>
                 <span style={{paddingLeft: '15px'}}>
