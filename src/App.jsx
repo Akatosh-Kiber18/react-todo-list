@@ -2,30 +2,26 @@ import './App.css';
 import TodoListSidebar from "./components/Sidebar/TodoListSidebar";
 import TaskList from "./components/TaskList/TaskList";
 import {Route, Routes} from "react-router-dom";
-import {useState} from "react";
 import WelcomePage from "./components/WelcomePage/WelcomePage";
-import {getLists} from "./rest/list.rest";
+import {useState} from "react";
+import TodayTasksPage from "./components/TodayTasksPage/TodayTasksPage";
 
 function App() {
-    let initState = {
-        showCompletedTasks: false,
-        lists: [],
-    }
-    const [appState, setAppState] = useState(initState);
+    const [showTasks, setShowTasks] = useState(false);
 
-    if (appState.lists.length === 0) {
-        getLists()
-            .then(res => setAppState({...appState, lists: res.data}))
+    function showCompletedTasksToggle() {
+        setShowTasks(!showTasks);
     }
 
     return (
         <div className="App">
-            <TodoListSidebar lists={appState.lists}/>
+            <TodoListSidebar showCompleted={showCompletedTasksToggle}/>
             <Routes>
                 <Route path={'/'} element={<WelcomePage/>}/>
                 <Route path='/lists/:id'
-                       element={<TaskList />}
+                       element={<TaskList showCompleted={showTasks}/>}
                 />
+                <Route path={'/today'} element={<TodayTasksPage showCompleted={showTasks}/>}/>
             </Routes>
         </div>
     );

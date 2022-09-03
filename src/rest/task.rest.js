@@ -30,6 +30,6 @@ export function patchTask(task) {
 }
 
 export function getTodayTasks() {
-    return axios.patch("http://localhost:3000/collection/today")
+    return axios.get("http://localhost:3000/collection/today")
         .catch(onError);
 }

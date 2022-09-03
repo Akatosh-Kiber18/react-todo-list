@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 import {getList} from "../../rest/list.rest";
 import {deleteTask, getTask, patchTask, postTask} from "../../rest/task.rest";
 
-const TaskList = () => {
+const TaskList = ({showCompleted}) => {
     const listId = +useParams().id
 
     const [taskState, setTaskState] = useState([]);
@@ -41,12 +41,12 @@ const TaskList = () => {
         <div className="TaskList">
             <h1>Tasks list:</h1>
             {
-                taskState
-                    .map(t =>
+                taskState.map(t =>
                         <TaskElem key={t.id}
                                   task={t}
                                   onDeleteTask={onDeleteTask}
                                   changeTaskStatus={changeTaskStatus}
+                                  showCompleted={showCompleted}
                         />
                     )
             }

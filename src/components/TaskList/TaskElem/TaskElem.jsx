@@ -1,7 +1,8 @@
 import React from 'react';
 import style from './TaskElem.module.css'
+import ListElem from "../../Sidebar/ListElem/ListElem";
 
-const TaskElem = ({task, onDeleteTask, changeTaskStatus}) => {
+const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompleted}) => {
     const today = new Date();
     today.setHours(0,0,0);
 
@@ -15,7 +16,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus}) => {
             <div id={task.id} className={style.taskDetails}
                  style={{
                      borderTopColor: task.done ? "green" : isOverdue() ? "red" : "gray",
-                     // display: task.done ? "none" : ""
+                     display: task.done && !showCompleted ? "none" : ""
                  }}>
                 <h4 className={style.taskDetailsDueDate}
                     style={{
@@ -39,6 +40,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus}) => {
                 }}>
                     <button onClick={() => onDeleteTask(task.id)}>Delete</button>
                 </span>
+                <ListElem list={task.list}/>
             </div>
         </div>
     );
