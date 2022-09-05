@@ -1,41 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {deleteTask, getTodayTasks, patchTask} from "../../rest/task.rest";
 import TaskElem from "../TaskList/TaskElem/TaskElem";
+import {useTasks} from "../../hooks/useTasks";
 
 const TodayTasksPage = ({showCompleted}) => {
 
-    const [todayTaskState, setTodayTaskState] = useState([]);
+    const endpoint = "http://localhost:3000/today";
 
-    useEffect(() => {
-        getTodayTasks().then(todayTasks => setTodayTaskState(todayTasks.data))
-    }, [todayTaskState.length])
+    const {tasks, onDeleteTask, updateTask} = useTasks(endpoint);
 
-    function onDeleteTask(taskId) {
-        deleteTask(taskId)
-            .then(_ => setTodayTaskState(todayTaskState.filter(t => t.id !== taskId)))
-    }
-
-    function changeTaskStatus(taskId) {
-        const task = todayTaskState.find(t => t.id === taskId)
-        const oldTaskDone = task.done;
-        task.done = !task.done
-
-        patchTask(task)
-            .then(_ =>  getTodayTasks()
-                .then(todayTasks => setTodayTaskState(todayTasks.data)))
-            .catch(_ => task.done = oldTaskDone)
-    }
-
-    const tasksOnToday = todayTaskState.map(t =>
+    const tasksOnToday = tasks.map(t =>
         <TaskElem key={t.id}
                   task={t}
                   list={t.list}
                   showCompleted={showCompleted}
                   onDeleteTask={onDeleteTask}
-                  changeTaskStatus={changeTaskStatus}/>);
+                  updateTask={updateTask}
+        />);
 
     return (
         <div>
+            <h1>TASKS ON TODAY:</h1>
             {tasksOnToday}
         </div>
     );

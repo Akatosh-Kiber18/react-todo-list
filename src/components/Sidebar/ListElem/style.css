@@ -1,0 +1,19 @@
+.inactive h3{
+    padding: 5px 0 5px 10px;
+}
+
+.inactive h3:hover {
+    color: #333;
+    border-radius: 10px;
+    background: rgb(207, 207, 207);
+}
+.active h3:hover {
+    color: #fff;
+}
+
+.active h3{
+    padding: 5px 0 5px 10px;
+    background: #6c757d;
+    color: #fff;
+    border-radius: 10px;
+}

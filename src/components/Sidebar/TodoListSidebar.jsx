@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ListElem from "./ListElem/ListElem";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {getLists} from "../../rest/list.rest";
 
 const TodoListSidebar = ({showCompleted}) => {
@@ -18,8 +18,9 @@ const TodoListSidebar = ({showCompleted}) => {
         <div className="TodoListSidebar">
             <h1>Lists: </h1>
             {listsElements}
-            <Link to={'/today'}><h2>Tasks on Today</h2></Link>
-            <Link to={'/'}><h2> Home </h2></Link>
+            <NavLink to={'/today'} className={({isActive}) => (isActive ? 'active' : 'inactive')}><h2>Tasks on
+                Today</h2></NavLink>
+            <NavLink to={'/'} className={({isActive}) => (isActive ? 'active' : 'inactive')}><h2> Home </h2></NavLink>
             <span className={"switcherContainer"}>
                 <label className="switch">
                     <input type="checkbox" onChange={showCompleted}/>

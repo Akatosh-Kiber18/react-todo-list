@@ -1,14 +1,19 @@
 import React from 'react';
 import style from './ListElem.module.css'
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import './style.css'
 
-const ListElem = ({list}) => {
+const ListElem = ({list, count}) => {
     if (list == null) {
         return;
     }
+
+   let countOfTasks = count ? "(" + count + ")" : "";
+
     return (
         <div>
-            <Link to={"/lists/" + list.id}><h3 className={style.listName}>{list.name}</h3></Link>
+            <NavLink to={"/lists/" + list.id}  className={({ isActive }) => (isActive ? 'active' : 'inactive')}
+            ><h3 className={style.listName}>{list.name} {countOfTasks}</h3></NavLink>
         </div>
     );
 };

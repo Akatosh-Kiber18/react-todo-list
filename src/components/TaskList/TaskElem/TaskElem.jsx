@@ -2,14 +2,14 @@ import React from 'react';
 import style from './TaskElem.module.css'
 import ListElem from "../../Sidebar/ListElem/ListElem";
 
-const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompleted}) => {
+const TaskElem = ({task, onDeleteTask, updateTask, showCompleted, listId}) => {
     const today = new Date();
     today.setHours(0,0,0);
-
 
     function isOverdue (){
       return today > new Date(task.dueDate)
     }
+    let list = listId ? null : task.list;
 
     return (
         <div >
@@ -24,7 +24,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompleted}) => {
                     }}>
                     {task.dueDate || '[no due date]'}
                 </h4>
-                <input id={'done-' + task.id} type="checkbox" className={style.checkbox} checked={task.done} onChange={() => changeTaskStatus(task.id)}/>
+                <input id={'done-' + task.id} type="checkbox" className={style.checkbox} checked={task.done} onChange={() => updateTask(task.id)}/>
                 <label className={style.taskDetailsName}
                        for={'done-' + task.id}
                        style={{
@@ -40,7 +40,7 @@ const TaskElem = ({task, onDeleteTask, changeTaskStatus, showCompleted}) => {
                 }}>
                     <button onClick={() => onDeleteTask(task.id)}>Delete</button>
                 </span>
-                <ListElem list={task.list}/>
+                <ListElem list={list}/>
             </div>
         </div>
     );

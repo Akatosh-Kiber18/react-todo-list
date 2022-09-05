@@ -19,7 +19,7 @@ function App() {
             <Routes>
                 <Route path={'/'} element={<WelcomePage/>}/>
                 <Route path='/lists/:id'
-                       element={<TaskList showCompleted={showTasks}/>}
+                       element={<TaskList showCompleted={showTasks} />}
                 />
                 <Route path={'/today'} element={<TodayTasksPage showCompleted={showTasks}/>}/>
             </Routes>

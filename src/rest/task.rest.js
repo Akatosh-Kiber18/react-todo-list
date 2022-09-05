@@ -10,10 +10,11 @@ export function getTasks() {
        .catch(onError);
 }
 
-export function getTask(id) {
-    return axios.get("http://localhost:3000/tasks/" + id)
-        .catch(onError);
-}
+// export function getTask(id) {
+//     return axios.get("http://localhost:3000/tasks/" + id)
+//         .catch(onError);
+// }
+
 export function postTask(task) {
    return axios.post("http://localhost:3000/tasks", task)
        .catch(onError);
