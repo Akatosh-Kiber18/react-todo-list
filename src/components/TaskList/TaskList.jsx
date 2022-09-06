@@ -6,11 +6,11 @@ import {useTasks} from "../../hooks/useTasks";
 const TaskList = ({showCompleted}) => {
     const listId = +useParams().id;
 
-    const endpoint = "http://localhost:3000/tasks";
+    const endpoint = "http://localhost:3000/lists/" + listId;
 
     const {tasks, onDeleteTask, updateTask, addTask} = useTasks(endpoint);
 
-    const taskListEl = tasks.filter(t => t.list.id === listId).map(t =>
+    const taskListEl = tasks.map(t =>
         <TaskElem key={t.id}
                   task={t}
                   onDeleteTask={onDeleteTask}

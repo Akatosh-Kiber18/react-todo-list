@@ -11,7 +11,7 @@ export function useTasks(endpoint) {
 
     function onDeleteTask(taskId) {
         deleteTask(taskId)
-            .then(_ =>  getRequests(endpoint).then(tasks => setTasks(tasks.data)))
+            .then(res => setTasks(tasks.filter(t => t.id !== res.data.id)))
     }
 
     function updateTask(taskId) {
@@ -20,14 +20,19 @@ export function useTasks(endpoint) {
         task.done = !task.done
 
         patchTask(task)
-            .then(_ =>  getRequests(endpoint)
-            .then(tasks => setTasks(tasks.data)))
+            .then(res => {
+                if (endpoint === "http://localhost:3000/today") {
+                    setTasks(tasks.filter(t => t.id !== res.data.id))
+                } else {
+                    setTasks(tasks.map(t => t.id === res.data.id ? res.data : t))
+                }
+            })
             .catch(_ => task.done = oldTaskDone)
     }
 
     function addTask(task) {
         postTask(task)
-            .then(_ =>  getRequests(endpoint).then(tasks => setTasks(tasks.data)))
+            .then(t => setTasks([...tasks, t.data]))
     }
 
     return {
