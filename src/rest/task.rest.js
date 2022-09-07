@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getTasksAction, postTaskAction} from "../store/tasks/tasksReducer";
 
 export function onError(error) {
     alert(error)
@@ -6,18 +7,19 @@ export function onError(error) {
 }
 
 export function getTasks() {
-   return axios.get("http://localhost:3000/tasks")
-       .catch(onError);
+   return function (dispatch) {
+       axios.get("http://localhost:3000/tasks")
+           .then(res => dispatch(getTasksAction(res.data)))
+           .catch(onError);
+   }
 }
 
-// export function getTask(id) {
-//     return axios.get("http://localhost:3000/tasks/" + id)
-//         .catch(onError);
-// }
-
 export function postTask(task) {
-   return axios.post("http://localhost:3000/tasks", task)
-       .catch(onError);
+   return function (dispatch) {
+       axios.post("http://localhost:3000/tasks", task)
+           .then(res => dispatch(postTaskAction(res.data)))
+           .catch(onError);
+   }
 }
 
 export function deleteTask(id) {

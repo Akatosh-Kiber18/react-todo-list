@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import style from './NewTaskForm.module.css';
 
-const NewTaskForm = ({listId, addTask}) => {
+const NewTaskForm = ({listId, addTask }) => {
+
     const [taskName, setTaskName] = useState('');
     const [taskDescription, setDescription] = useState('');
     const [taskDueDate, setDueDate] = useState('');
