@@ -1,16 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import ListElem from "./ListElem/ListElem";
 import {NavLink} from "react-router-dom";
-import {getLists} from "../../rest/list.rest";
+import {useDispatch, useSelector} from "react-redux";
+import {loadDashboard} from "../../store/loadDashboardAction";
 
 const TodoListSidebar = ({showCompleted}) => {
-    const [listState, setListState] = useState([]);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        getLists().then(l => setListState(l.data))
-    }, [listState.length])
+    // useEffect(() => {
+    //     dispatch(loadDashboard())
+    // }, [dispatch]);
+    dispatch(loadDashboard())
 
-    let listsElements = listState.map(l =>
+
+    const lists = useSelector(state => state.lists)
+    // useEffect(() => {
+    //     dispatch(getTodayTasksCount())
+    // }, [])
+    //
+    // const taskCount = useSelector(state => state.listReducer.openTasksOnTodayCount)
+    //
+    // console.log(taskCount);
+
+    let listsElements = lists.map(l =>
         <ListElem key={"list" + l.id} list={l} />
     )
 

@@ -1,19 +1,32 @@
 import TaskElem from "../TaskList/TaskElem/TaskElem";
-import {useTasks} from "../../hooks/useTasks";
+import {useEffect} from "react";
+import {getTodayTasks} from "../../rest/task.rest";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    deleteTodayTaskAction,
+    updateTodayTaskAction
+} from "../../store/tasksReducer";
 
 const TodayTasksPage = ({showCompleted}) => {
+    const dispatch = useDispatch();
 
-    const endpoint = "http://localhost:3000/today";
+    const deleteAction = deleteTodayTaskAction;
+    const updateAction = updateTodayTaskAction;
 
-    const {tasks, onDeleteTask, updateTask} = useTasks(endpoint);
+    useEffect(() => {
+        dispatch(getTodayTasks())
+    }, []);
+
+    const tasks = useSelector(state => state.taskReducer.tasksToday)
 
     const tasksOnToday = tasks.map(t =>
         <TaskElem key={t.id}
                   task={t}
                   list={t.list}
+                  dispatch={dispatch}
                   showCompleted={showCompleted}
-                  onDeleteTask={onDeleteTask}
-                  updateTask={updateTask}
+                  deleteAction={deleteAction}
+                  updateAction={updateAction}
         />);
 
     return (

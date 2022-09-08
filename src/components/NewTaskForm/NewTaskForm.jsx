@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import style from './NewTaskForm.module.css';
+import {postTask} from "../../rest/task.rest";
 
-const NewTaskForm = ({listId, addTask }) => {
+const NewTaskForm = ({listId, dispatch}) => {
 
     const [taskName, setTaskName] = useState('');
     const [taskDescription, setDescription] = useState('');
@@ -13,13 +14,13 @@ const NewTaskForm = ({listId, addTask }) => {
             return
         }
 
-        addTask({
+        dispatch(postTask({
             done: false,
             name: taskName,
             dueDate: taskDueDate || null,
             description: taskDescription || null,
             listId: +listId
-        });
+        }))
 
         setTaskName('');
         setDueDate('');

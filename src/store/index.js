@@ -2,9 +2,11 @@ import {applyMiddleware, combineReducers, legacy_createStore as createStore} fro
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import {taskReducer} from "./tasksReducer";
+import {listReducer} from "./listsReducer";
 
 const rootReducer = combineReducers({
-    taskReducer: taskReducer,
+  tasks: taskReducer,
+  lists: listReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

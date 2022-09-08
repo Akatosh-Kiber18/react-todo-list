@@ -2,29 +2,32 @@ import TaskElem from "./TaskElem/TaskElem";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getTasks, postTask} from "../../rest/task.rest";
 import {useEffect} from "react";
+import {deleteTaskAction, updateTaskAction} from "../../store/tasksReducer";
+import {getList} from "../../rest/list.rest";
 
 const TaskList = ({showCompleted}) => {
     const listId = +useParams().id;
 
     const dispatch = useDispatch();
 
+    const deleteAction = deleteTaskAction;
+    const updateAction = updateTaskAction;
+
     useEffect(() => {
-        dispatch(getTasks())
-    }, []);
+        dispatch(getList(listId))
+    }, [dispatch, listId]);
 
-    const addTask = dispatch(() => postTask())
+    const tasks = useSelector(state => state.tasks.tasks)
 
-    const storeTasks = useSelector(state => state.taskReducer.tasks)
-
-    const taskListEl = storeTasks.filter(t => t.list.id === listId).map(t =>
+    const taskListEl = tasks.map(t =>
         <TaskElem key={t.id}
                   task={t}
-            // onDeleteTask={onDeleteTask}
-            // updateTask={updateTask}
                   showCompleted={showCompleted}
+                  dispatch={dispatch}
                   listId={listId}
+                  deleteAction={deleteAction}
+                  updateAction={updateAction}
         />
     )
 
@@ -32,7 +35,7 @@ const TaskList = ({showCompleted}) => {
         <div className="TaskList">
             <h1>Task List:</h1>
             {taskListEl}
-            <NewTaskForm listId={listId} addTask={addTask}/>
+            <NewTaskForm listId={listId} dispatch={dispatch}/>
         </div>
     );
 };
