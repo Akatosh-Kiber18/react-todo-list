@@ -3,14 +3,14 @@ import style from './ListElem.module.css'
 import {NavLink} from "react-router-dom";
 import './style.css'
 
-const ListElem = ({list}) => {
+const ListElem = ({list, count}) => {
     if (list == null) {
         return;
     }
     return (
         <div>
             <NavLink to={"/lists/" + list.id}  className={({ isActive }) => (isActive ? 'active' : 'inactive')}
-            ><h3 className={style.listName}>{list.name} </h3></NavLink>
+            ><h3 className={style.listName}>{list.name} ({count}) </h3></NavLink>
         </div>
     );
 };

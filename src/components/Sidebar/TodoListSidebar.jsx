@@ -23,7 +23,7 @@ const TodoListSidebar = ({showCompleted}) => {
     // console.log(taskCount);
 
     let listsElements = lists.map(l =>
-        <ListElem key={"list" + l.id} list={l} />
+        <ListElem key={"list" + l.id} list={l} count={l.undone} />
     )
 
     return (
