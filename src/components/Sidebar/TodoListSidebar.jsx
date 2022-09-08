@@ -7,10 +7,10 @@ import {loadDashboard} from "../../store/loadDashboardAction";
 const TodoListSidebar = ({showCompleted}) => {
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(loadDashboard())
-    // }, [dispatch]);
-    dispatch(loadDashboard())
+    useEffect(() => {
+        dispatch(loadDashboard())
+    }, [dispatch]);
+
 
 
     const lists = useSelector(state => state.lists)
