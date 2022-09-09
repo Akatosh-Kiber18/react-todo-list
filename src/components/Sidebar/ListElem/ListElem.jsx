@@ -10,7 +10,7 @@ const ListElem = ({list, count}) => {
     return (
         <div>
             <NavLink to={"/lists/" + list.id}  className={({ isActive }) => (isActive ? 'active' : 'inactive')}
-            ><h3 className={style.listName}>{list.name} ({count}) </h3></NavLink>
+            ><h3 className={style.listName}>{list.name} {count ? "("+count+")" : ""} </h3></NavLink>
         </div>
     );
 };

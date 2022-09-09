@@ -11,10 +11,13 @@ export function getLists() {
     }
 }
 
-export function getList(id) {
+export function getTasks(id) {
     return function (dispatch) {
         axios.get("http://localhost:3000/lists/" + id)
-            .then(res => dispatch(getTasksAction(res.data)))
+            .then(res => dispatch(getTasksAction({
+                tasks: res.data,
+                listId: id
+            })))
             .catch(onError);
     }
 }

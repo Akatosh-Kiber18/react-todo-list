@@ -15,7 +15,7 @@ const TodayTasksPage = ({showCompleted}) => {
 
     useEffect(() => {
         dispatch(getTodayTasks())
-    }, []);
+    }, [dispatch]);
 
     const tasks = useSelector(state => state.tasks.tasksToday)
 

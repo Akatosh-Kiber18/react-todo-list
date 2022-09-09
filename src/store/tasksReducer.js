@@ -10,15 +10,10 @@ const UPDATE_TASK = "UPDATE_TASK";
 const UPDATE_TODAY_TASK = "UPDATE_TODAY_TASK";
 
 
-const initialState = {
-    tasks: [],
-    tasksToday: []
-};
-
-export function taskReducer(state = initialState, action) {
+export function taskReducer(state = {}, action) {
     switch (action.type) {
         case GET_TASKS:
-            return {...state, tasks: [...action.payload]}
+            return {...state, [action.payload.listId]:action.payload.tasks}
         case GET_TODAY_TASKS:
             return {...state, tasksToday: [...action.payload]}
 

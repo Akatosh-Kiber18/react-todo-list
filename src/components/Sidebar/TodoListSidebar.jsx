@@ -9,7 +9,7 @@ const TodoListSidebar = ({showCompleted}) => {
 
     useEffect(() => {
         dispatch(loadDashboard())
-    }, [dispatch]);
+    }, []);
 
     const lists = useSelector(state => state.lists)
 
