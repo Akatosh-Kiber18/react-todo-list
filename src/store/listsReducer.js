@@ -5,7 +5,7 @@ const GET_TODAY_TASKS_COUNT = "GET_TODAY_TASKS_COUNT";
 export function listReducer(state = [], action) {
     switch (action.type) {
         case DASHBOARD_LOADED:
-            return action.payload.lists;
+            return action.payload;
 
         default:
             return state;

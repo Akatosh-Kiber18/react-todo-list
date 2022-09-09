@@ -13,22 +13,33 @@ const UPDATE_TODAY_TASK = "UPDATE_TODAY_TASK";
 export function taskReducer(state = {}, action) {
     switch (action.type) {
         case GET_TASKS:
-            return {...state, [action.payload.listId]:action.payload.tasks}
+            return {...state,
+                [action.payload.listId]:action.payload.tasks}
         case GET_TODAY_TASKS:
-            return {...state, tasksToday: [...action.payload]}
+            return {...state,
+                tasksToday: [...action.payload]}
 
         case ADD_TASK:
-            return {...state, tasks: [...state.tasks, action.payload]}
+            return {...state,
+                [action.payload.list.id]: [...state[action.payload.list.id], action.payload]}
 
         case DELETE_TASK:
-            return {...state, tasks: state.tasks.filter(t => t.id !== action.payload)}
+            return {...state,
+                [action.payload.list.id]: state[action.payload.list.id]
+                    .filter(t => t.id !== action.payload.id)}
         case DELETE_TODAY_TASK:
-            return {...state, tasksToday: state.tasksToday.filter(t => t.id !== action.payload)}
+            return {...state,
+                tasksToday: state.tasksToday
+                    .filter(t => t.id !== action.payload)}
 
         case UPDATE_TASK:
-            return {...state, tasks: state.tasks.map(t => t.id === action.payload.id ? action.payload : t)}
+            return {...state,
+                [action.payload.list.id]: state[action.payload.list.id]
+                    .map(t => t.id === action.payload.id ? action.payload : t)}
         case UPDATE_TODAY_TASK:
-            return {...state, tasksToday: state.tasksToday.filter(t => t.id !== action.payload.id)}
+            return {...state,
+                tasksToday: state.tasksToday
+                    .filter(t => t.id !== action.payload.id)}
 
         default:
             return state

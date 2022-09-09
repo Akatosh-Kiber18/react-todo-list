@@ -49,7 +49,7 @@ export function postTask(task) {
 export function deleteTask(id, action) {
     return function(dispatch) {
         axios.delete("http://localhost:3000/tasks/" + id)
-            .then(res => dispatch(action(res.data.id)))
+            .then(res => dispatch(action(res.data)))
             .catch(onError);
     }
 }
