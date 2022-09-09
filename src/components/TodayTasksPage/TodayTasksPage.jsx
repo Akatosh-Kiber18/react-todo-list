@@ -17,7 +17,7 @@ const TodayTasksPage = ({showCompleted}) => {
         dispatch(getTodayTasks())
     }, []);
 
-    const tasks = useSelector(state => state.taskReducer.tasksToday)
+    const tasks = useSelector(state => state.tasks.tasksToday)
 
     const tasksOnToday = tasks.map(t =>
         <TaskElem key={t.id}

@@ -11,16 +11,7 @@ const TodoListSidebar = ({showCompleted}) => {
         dispatch(loadDashboard())
     }, [dispatch]);
 
-
-
     const lists = useSelector(state => state.lists)
-    // useEffect(() => {
-    //     dispatch(getTodayTasksCount())
-    // }, [])
-    //
-    // const taskCount = useSelector(state => state.listReducer.openTasksOnTodayCount)
-    //
-    // console.log(taskCount);
 
     let listsElements = lists.map(l =>
         <ListElem key={"list" + l.id} list={l} count={l.undone} />
