@@ -20,6 +20,7 @@ const TaskList = ({showCompleted}) => {
 
     const selector = id => state=>state.tasks[id]
     const tasks = useSelector(selector(listId))||[]
+    console.log(tasks)
 
     return (
         <div className="TaskList">

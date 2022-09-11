@@ -4,7 +4,6 @@ import {
     getTodayTasksAction,
     postTaskAction,
 } from "../store/tasksReducer";
-import {getOpenTasksOnTodayCountAction} from "../store/listsReducer";
 
 export function onError(error) {
     alert(error)
@@ -30,13 +29,13 @@ export function getTodayTasks() {
     }
 }
 
-export function getTodayTasksCount() {
-    return function (dispatch) {
-        axios.get("http://localhost:3000/dashboard")
-            .then(res => dispatch(getOpenTasksOnTodayCountAction(res.data)))
-            .catch(onError);
-    }
-}
+// export function getTodayTasksCount() {
+//     return function (dispatch) {
+//         axios.get("http://localhost:3000/dashboard")
+//             .then(res => dispatch(getOpenTasksOnTodayCountAction(res.data)))
+//             .catch(onError);
+//     }
+// }
 
 export function postTask(task) {
    return function(dispatch) {
